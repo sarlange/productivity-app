@@ -19,7 +19,7 @@ button {
  cursor: pointer; min-height: 44px; padding: 8px 14px;
  border: 1px solid var(--accent); border-radius: 8px;
  background: var(--surface); color: var(--accent);
-}
+} 
 button:hover, button[aria-current="page"] {
  background: var(--accent); color: white;
 }
@@ -43,10 +43,10 @@ input, select {
 .warning { background: #fff4d6; border-color: #9b7218; padding: 16px; }
 .status, small { color: #5f5469; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.full { grid-column: 1 / -1; }
+.full { grid-column: 1 / -1; } 
 .task-list, .schedule-list { list-style: none; padding: 0; }
 .task-list > li { padding: 16px 0; border-bottom: 1px solid var(--border); }
-.task-list h3 { margin: 0; }
+.task-list h3 { margin: 0; } 
 .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
 .day { min-width: 0; padding: 12px; }
 .schedule-item {
@@ -64,4 +64,9 @@ summary { cursor: pointer; }
  main { padding: 12px; }
  .form-grid, .week-grid { grid-template-columns: 1fr; }
  .tabs button { flex: 1; }
+}
+
+@media (max-width: 650 px) {
+    main { padding: 12px; }
+    .form-grid, .week-grid
 }

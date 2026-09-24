@@ -25,7 +25,7 @@ export type Session = Interval & {
  taskId: string;
  minutes: number;
 };
-export type Warning = {
+export type Warning = { // Interval *potential*
  taskId: string;
  minutes: number;
  reason: "overdue" | "capacity" | "horizon";
@@ -33,7 +33,7 @@ export type Warning = {
 export type Settings = {
  session: number;
  gap: number;
- horizon: number;
+ horizon: number; 
 };
 export type AppData = {
  version: 1;
@@ -48,7 +48,8 @@ export type Plan = {
  generatedAt: number;
  horizonEnd: number;
 };
-export const emptyData = (): AppData => ({
+
+export const emptyData = (): AppData => ({ 
  version: 1,
  tasks: [],
  windows: [],

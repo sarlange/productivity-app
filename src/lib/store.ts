@@ -19,6 +19,7 @@ function makeSnapshot(data: AppData, error = ""): Snapshot {
    ({ ...s, id: crypto.randomUUID() }));
  return { data, plan, error };
 }
+
 function load() {
  let data = emptyData();
  let error = "";
@@ -34,6 +35,7 @@ function load() {
  current = makeSnapshot(data, error);
  loaded = true;
 }
+
 export function subscribe(listener: () => void) {
  listeners.add(listener);
  if (!loaded) { load(); publish(); }
@@ -41,15 +43,16 @@ export function subscribe(listener: () => void) {
 }
 function commit(change: (d: AppData) => void) {
  if (!current || locked) {
-   throw new Error("Editing is paused until saved data is recovered.");
+   throw new Error("Editing is paused until saved data is recovered."); 
  }
  // Detect another tab's write before replacing its data.
  if (localStorage.getItem(KEY) !== lastRaw) {
    load(); publish();
    throw new Error("Another tab changed this plan. Review and retry.");
  }
+
  const data = structuredClone(current.data);
- change(data);
+ change(data); 
  data.blocked = data.blocked.filter(b => b.end > Date.now());
  const validated = parseData(JSON.stringify(data));
  const raw = JSON.stringify(validated);
@@ -57,14 +60,14 @@ function commit(change: (d: AppData) => void) {
  localStorage.setItem(KEY, raw);
  lastRaw = raw;
  current = makeSnapshot(validated);
- publish();
+ publish(); 
 }
 export const actions = {
  saveTask(task: Task) {
    if (!validTask(task)) throw new Error("Check the task fields.");
    task = { ...task, done: task.done || task.worked >= task.estimate };
    commit(d => {
-     const index = d.tasks.findIndex(t => t.id === task.id);
+     const index = d.tasks.findIndex(t => t.id === task.id); 
      if (index === -1) d.tasks.push(task);
      else d.tasks[index] = task;
    });
@@ -81,7 +84,7 @@ export const actions = {
    });
  },
  saveWindow(window: TimeWindow) {
-   if (!validWindow(window)) throw new Error("Check the time fields.");
+   if (!validWindow(window)) throw new Error("Check the time fields."); 
    commit(d => {
      const index = d.windows.findIndex(w => w.id === window.id);
      if (index === -1) d.windows.push(window);
@@ -103,7 +106,8 @@ export const actions = {
      task.worked += Math.min(session.minutes, remaining(task));
      if (task.worked >= task.estimate) task.done = true;
    });
- },
+ }, 
+
  missSession(id: string) {
    const session = current?.plan.sessions.find(s => s.id === id);
    if (!session) throw new Error("That plan changed. Use the new session.");

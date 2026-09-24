@@ -41,7 +41,6 @@ export function freeSlots(data: AppData, now: number) {
    .flatMap(w => expand(w, start, end));
  return { slots: subtract(free, [...busy, ...data.blocked]), end };
 }
-
 export function buildPlan(data: AppData, now: number): Plan {
  const { slots, end } = freeSlots(data, now);
  const tasks = data.tasks.filter(t => remaining(t) > 0)

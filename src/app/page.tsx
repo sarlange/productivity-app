@@ -4,6 +4,8 @@ import type { Task } from "@/lib/types";
 import { actions, subscribe, getSnapshot,
  getServerSnapshot } from "@/lib/store";
 import TaskEditor from "@/components/TaskEditor";
+import TimeEditor from "@/components/TimeEditor";
+
 export default function Home() {
  const snapshot = useSyncExternalStore(
    subscribe, getSnapshot, getServerSnapshot,
@@ -15,6 +17,15 @@ export default function Home() {
  }
  return <main>
    <h1>Task prototype</h1>
+   <TimeEditor onClose={() => alert("Time block saved.")} />
+    <ul>{snapshot.data.windows.map(w => <li key={w.id}>
+      {w.title}: {w.date}, {w.start}-{w.end}
+      {w.weekly ? " (weekly)" : ""}
+      <button onClick={() => run(() => actions.deleteWindow(w.id))}>
+        Delete time block
+      </button>
+    </li>)}</ul>
+
    <button onClick={() => setEditing("new")}>Add task</button>
    {snapshot.error && <p role="alert">{snapshot.error}</p>}
    {editing && <TaskEditor
